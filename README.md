@@ -1,24 +1,55 @@
-# README
+## Usersテーブル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+|Column      |Type   |Options                  |
+|------------|-------|-------------------------|
+|nickname    |string |null: false              |
+|email       |string |null: false, unique: true|
+|password    |string |null: false              |
+|name        |string |null: false              |
+|name_reading|string |null: false              |
+|birthday    |integer|null: false              |
 
-Things you may want to cover:
+### Association
+- has_many :items
+- has_many :orders
 
-* Ruby version
+## Itemsテーブル
 
-* System dependencies
+|Column     |Type      |Options                       |
+|-----------|----------|------------------------------|
+|name       |string    |null: false                   |
+|description|text      |null: false                   |
+|price      |integer   |null: false                   |
+|user       |references|null: false, foreign_key: true|
 
-* Configuration
+### Association
+- belongs_to :user
+- has_one :order
 
-* Database creation
+## Ordersテーブル
 
-* Database initialization
+|Column|Type      |Options                       |
+|------|----------|------------------------------|
+|price |integer   |null: false                   |
+|user  |references|null: false, foreign_key: true|
+|item  |references|null: false, foreign_key: true|
 
-* How to run the test suite
+### Association
+belongs_to :user
+belongs_to :item
+has_one :shipping_address
 
-* Services (job queues, cache servers, search engines, etc.)
+## Shipping_addressesテーブル
 
-* Deployment instructions
+|Column       |Type      |Options                       |
+|-------------|----------|------------------------------|
+|postal_code  |string    |null: false                   |
+|prefecture   |integer   |null: false                   |
+|city         |string    |null: false                   |
+|house_number |string    |null: false                   |
+|building_name|string    |                              |
+|phone_number |integer   |null: false                   |
+|order        |references|null: false, foreign_key: true|
 
-* ...
+### Association
+- belongs_to :order
