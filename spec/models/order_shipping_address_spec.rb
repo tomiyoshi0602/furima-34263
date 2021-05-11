@@ -13,6 +13,10 @@ RSpec.describe OrderShippingAddress, type: :model do
       it '全ての値が正しく入力されていれば保存できること' do
         expect(@order_shipping_address).to be_valid
       end
+      it 'building_nameは空でも保存ができること' do
+        @order_shipping_address.building_name = ''
+        expect(@order_shipping_address).to be_valid
+      end
     end
 
     context '内容に問題がある場合' do
@@ -46,6 +50,16 @@ RSpec.describe OrderShippingAddress, type: :model do
         @order_shipping_address.valid?
         expect(@order_shipping_address.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
       end
+      it 'prefecture_idが空だと保存ができないこと' do
+        @order_shipping_address.prefecture_id = ''
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include("Prefecture can't be blank")
+      end
+      it 'prefectureが0を選択していると保存ができないこと' do
+        @order_shipping_address.prefecture_id = 0
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include('Prefecture must be other than 0')
+      end
       it 'cityは空だと保存ができないこと' do
         @order_shipping_address.city = ''
         @order_shipping_address.valid?
@@ -56,14 +70,20 @@ RSpec.describe OrderShippingAddress, type: :model do
         @order_shipping_address.valid?
         expect(@order_shipping_address.errors.full_messages).to include("House number can't be blank")
       end
-      it 'building_nameは空でも保存ができること' do
-        @order_shipping_address.building_name = ''
-        expect(@order_shipping_address).to be_valid
-      end
       it 'tokenが空では保存ができないこと' do
         @order_shipping_address.token = ''
         @order_shipping_address.valid?
         expect(@order_shipping_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'user_idが空では保存ができないこと' do
+        @order_shipping_address.user_id = ''
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空だと保存ができないこと' do
+        @order_shipping_address.item_id = ''
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
