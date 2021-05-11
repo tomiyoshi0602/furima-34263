@@ -3,7 +3,6 @@ class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
   before_action :move_to_root_path, only: [:index, :create]
 
-
   def index
     @order_shipping_address = OrderShippingAddress.new
   end
@@ -22,20 +21,21 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order_shipping_address).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token], price: @item.price)
+    params.require(:order_shipping_address).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(
+      user_id: current_user.id, item_id: params[:item_id], token: params[:token], price: @item.price
+    )
   end
 
   def move_to_root_path
-    if @item.order != nil
+    if !@item.order.nil?
       redirect_to root_path
-    elsif
-      current_user.id == @item.user_id
+    elsif current_user.id == @item.user_id
       redirect_to root_path
     end
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: order_params[:price],
       card: order_params[:token],
@@ -46,5 +46,4 @@ class OrdersController < ApplicationController
   def set_item
     @item = Item.find(params[:item_id])
   end
-
 end

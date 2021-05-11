@@ -24,12 +24,12 @@ RSpec.describe OrderShippingAddress, type: :model do
       it 'postal_codeに半角ハイフンが含まれないと保存ができないこと' do
         @order_shipping_address.postal_code = '1234567'
         @order_shipping_address.valid?
-        expect(@order_shipping_address.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@order_shipping_address.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'postal_codeは半角数字出なければ登録できないこと' do
         @order_shipping_address.postal_code = 'abc-defg'
         @order_shipping_address.valid?
-        expect(@order_shipping_address.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@order_shipping_address.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'phone_numberは空だと保存ができないこと' do
         @order_shipping_address.phone_number = ''
@@ -39,12 +39,12 @@ RSpec.describe OrderShippingAddress, type: :model do
       it 'phone_numberは数値でなければ登録できないこと' do
         @order_shipping_address.phone_number = 'abcdefghijk'
         @order_shipping_address.valid?
-        expect(@order_shipping_address.errors.full_messages).to include("Phone number is not a number")
+        expect(@order_shipping_address.errors.full_messages).to include('Phone number is not a number')
       end
       it 'phone_numberは11桁以上では登録できないこと' do
         @order_shipping_address.phone_number = '123456789012'
         @order_shipping_address.valid?
-        expect(@order_shipping_address.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
+        expect(@order_shipping_address.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
       end
       it 'cityは空だと保存ができないこと' do
         @order_shipping_address.city = ''
@@ -67,7 +67,4 @@ RSpec.describe OrderShippingAddress, type: :model do
       end
     end
   end
-
-
-
 end

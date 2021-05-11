@@ -24,9 +24,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if @item.order != nil
-      redirect_to root_path
-    end
+    redirect_to root_path unless @item.order.nil?
   end
 
   def update
@@ -56,5 +54,4 @@ class ItemsController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
-  
 end
